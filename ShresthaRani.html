@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+    <head>
+        <title>coronabored</title>
+
+        <style>
+        #board{
+            border-collapse: collapse
+        }
+         tbody.cell, td
+         {
+             width : 50px;
+             height: 50px;
+             color:black;
+             text-align: center;
+             border-style: solid;
+             border-width: 1px;
+
+         } 
+         .board-cell-red
+         {
+             background-color: red; 
+         }
+         .board-cell-yellow
+         {
+             background-color:yellow; 
+         }   
+        </style>
+    </head>
+    
+    <body>
+
+        <div class = "input">
+        <p> enter the size of your chessboard:<br>
+         width: <input id = "width" type ="number" min="0" max="9"> 
+         height:<input id = "height" type ="number" max="9" min ="0"> 
+        <button type="button" id ="submit" onclick="buildboard()"> BUILD </button></p>
+        <p> Cure Mode: <input type="checkbox" id = "cureMode"> </p>
+        </div>   
+        <table id = "board">
+            <thead>
+            </thead>
+            <tbody id = "cell">
+                
+                </tbody>
+        </table>
+
+       <script>
+        
+        function buildboard()
+        {
+            var x = document.getElementById("width").value;
+            var y = document.getElementById("height").value;
+            console.log(x);
+             const body = document.getElementById("cell"); 
+             var i, j ;
+             let h = '';
+             for (i = 0; i < y; i++)
+            {
+                h+='<tr>'
+                for (j = 0; j < x; j++)
+                {
+                    if(i == 0 && j ==0)
+                    h += '<td class = "board-cell-yellow" onclick = "action('+i+','+j+')" id = '+i+'x'+j+'>V</td>';
+                    else if((i+j)% 2 == 0)        
+                    h += '<td class = "board-cell-yellow" onclick = "action('+i+','+j+')" id = '+i+'x'+j+'></td>';
+                    else
+                    h += '<td class = "board-cell-red" onclick = "action('+i+','+j+')" id = '+i+'x'+j+'></td>';                                           
+                }
+                h+='</tr>';
+            }
+            console.log(h);
+            body.insertAdjacentHTML('Beforeend', h);
+            }
+            window.onload = () =>{
+                action(i,j);
+            }
+            function action(r, c)
+            {
+                var x = document.getElementById("width").value;
+                var y = document.getElementById("height").value;
+                if(document.getElementById("cureMode").checked == true)
+                {
+                    document.getElementById(+r+'x'+c).innerText = ' ';
+                }
+                else
+                {
+                    if(document.getElementById(+r+'x'+c).innerText == 'V')
+                    {
+                        var top = (r-1)+'x'+c;
+                        var down = (r+1)+'x'+c;
+                        var left = r+'x'+(c-1);
+                        var right = r+'x'+(c+1);
+                        if(r != 0) 
+                        document.getElementById(top).innerText = 'V';
+                        if(r != y-1) 
+                        document.getElementById(down).innerText = 'V';
+                        if(c  != 0) 
+                        document.getElementById(left).innerText = 'V';
+                        if(c  != x-1) 
+                        document.getElementById(right).innerText = 'V';
+
+                    }
+                }
+
+            }
+            </script>                   
+            
+       
+        
+    </body>
+</html>
